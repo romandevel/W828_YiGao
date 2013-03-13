@@ -1,0 +1,23 @@
+SPP_CONNECT_REQ_T *hyco_SppConnectReqSend_struct(phandle_t      appHandle,
+                                            deviceAddr_t   deviceAddr,
+                                            bool_t         requestPortPar,
+                                            PORT_PAR_T     *portPar,
+                                            uint8_t        role )
+{
+	SPP_CONNECT_REQ_T *msg = NULL;
+	
+	msg = (SPP_CONNECT_REQ_T *)malloc(sizeof(SPP_CONNECT_REQ_T));
+	
+	msg->type			= 0x00;
+	msg->phandle		= phandle;
+	msg->deviceAddr.lap = deviceAddr.lap;
+	msg->deviceAddr.uap = deviceAddr.uap;
+	msg->deviceAddr.nap = deviceAddr.nap;	
+	msg->requestPortPar	= requestPortPar;
+	msg->portPar		= portPar;
+	msg->role			= role;
+	
+	PortParDefault(&(msg->portPar));
+	
+	return msg;
+}

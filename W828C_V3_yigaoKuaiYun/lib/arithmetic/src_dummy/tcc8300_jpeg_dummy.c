@@ -1,0 +1,2 @@
+void Jpeg_Codec()
+{}

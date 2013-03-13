@@ -1,0 +1,1 @@
+armar -x libTouchPalCore_ads12.a

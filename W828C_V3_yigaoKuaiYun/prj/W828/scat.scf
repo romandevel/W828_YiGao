@@ -1,0 +1,153 @@
+SDRAM_LOAD  0x24000000 0x1000000
+{
+	
+	baseProgram.bin		0x24000000
+	{
+		init.o (Init, +First)
+		regioninit.o(Macros)
+	}
+	
+	
+	SDRAM_NEXT +0x0
+	{
+		* (+RO)
+	}	
+	
+	;Gsm_InitToSdram
+	GSM_OVERLAY_SDRAM	0x24300000 OVERLAY	0x00005d3c
+	{
+		W828C_Gsm.o				(+RW,+ZI)
+	}
+	
+	;TcpIp
+	SDRAM_TCPIP_MEMORY  0x24305D3C  OVERLAY	0x00100000
+	{
+	    TcpIp_p.o (tcpip_memory)
+	}
+	
+	SDRAM_PPP_MEMORY  0x24405D3C  OVERLAY	0x00003520
+	{ 
+	    PPP_LIB.o        (+RW,+ZI)
+	}
+	
+	SDRAM_IE_MEMORYPOOL     0x2440925C  OVERLAY	0x00019000
+	{
+	    hyIE.o (IE_memory)
+	}
+	
+	SDRAM_PIC_DECODE_POOL     0x2442225C  OVERLAY	0x00002800
+	{
+	    SdramMemory_pool.o (sdram_pic_decode_memory_pool)
+	}
+	
+	;Wifi_InitToSdram
+	WIFI_OVERLAY_SDRAM 	0x24424A5C  OVERLAY	0x000020a4
+	{  
+	    wifi_user.o		(+RW,+ZI)
+ 	}
+ 	
+ 	;Nand_InitToSdram
+	NAND_OVERLAY_SDRAM 	0x24426B00  OVERLAY	0x00001b2c
+	{  
+	    hyStore.o		(+RW,+ZI)
+ 	}
+ 	
+ 	;0x2442862C
+	SDRAM_SYS_MEMORYPOOL	0x24429000	OVERLAY	0x0020e800
+	{
+		SdramMemory_pool.o (sdram_memory_pool)
+	}
+	
+	HYHAND_OVERLAY_SDRAM 0x24637800 OVERLAY	0x0001fb14
+	{
+	    1.o    (+RW,+ZI)
+	    2.o    (+RW,+ZI) 
+	    3.o    (+RW,+ZI) 
+	    4.o    (+RW,+ZI) 
+	    7.o    (+RW,+ZI) 
+	    6.o    (+RW,+ZI)
+	    5.o    (+RW,+ZI)
+	    8.o    (+RW,+ZI) 
+	    9.o    (+RW,+ZI) 
+	    10.o    (+RW,+ZI) 
+	    11.o    (+RW,+ZI) 
+	    12.o    (+RW,+ZI)
+	}
+	
+	SDRAM_BT_MEMORY  0x24657314  OVERLAY	0x00003a34
+	{ 
+	    sSynergyBt_8811.o        (+RW,+ZI)
+	}
+	
+	SDRAM_GPS_LIB			0x2465AD48  OVERLAY	0x10D90
+	{
+		W828C_GPS.o      (+RW, +ZI)
+	}
+	
+	;COOTEK_InitToSdram
+	SDRAM_COOTEK_LIB_MEMORYPOOL	0x2466BB00 OVERLAY	0x00016d94
+	{
+	;	Associate.o					(+RW, +ZI)
+	;	Bihua.o						(+RW, +ZI)
+	;	CandidateItem.o				(+RW, +ZI)
+	;	chinese_dictionary.o		(+RW, +ZI)
+	;	ChineseUserDictionary.o		(+RW, +ZI)
+	;	ChineseWord.o				(+RW, +ZI)
+	;	CompareLib.o				(+RW, +ZI)
+		dictionary_i.o				(+RW, +ZI)
+	;	guess.o						(+RW, +ZI)
+	;	hal.o						(+RW, +ZI)
+	;	JapaneseDictionary.o		(+RW, +ZI)
+	;	PinyinIndex.o				(+RW, +ZI)
+	;	PinyinParseTree.o			(+RW, +ZI)
+	;	Priority.o					(+RW, +ZI)
+	;	ResultController.o			(+RW, +ZI)
+		SimplifiedTraditionalTransfer.o	(+RW, +ZI)
+	;	SingleWord.o				(+RW, +ZI)
+	;	SysSearcher.o				(+RW, +ZI)
+	;	western_dictionary.o		(+RW, +ZI)
+	;	western_user_dictionary.o	(+RW, +ZI)
+	;	ZhuyinIndex.o				(+RW, +ZI)
+	;	ZhuyinParseTree.o			(+RW, +ZI)
+		
+	}
+	
+	;0x24682894
+	SDRAM_VIDEO_SFC_MEMORYPOOL	0x24683000 OVERLAY 0x157D000
+	{
+		SdramMemory_pool.o (sdram_video_sfc_memory_pool)
+	}
+	
+    ;sram overlay
+	ISRAM_READBUF		0x00000040	0x800
+    {
+		memory_pool.o	(read_pool)
+	}			    
+	
+	;ISRAM_OVERLAY_MEM	0x00000840 OVERLAY 0x5000	;(20*1024)
+	ISRAM_OVERLAY_MEM	0x00000840 OVERLAY 0x2800	;(20*1024)
+	{
+		memory_pool.o (reusable_memory)  
+	}
+	
+	SYS_SLEEP 0x00000840 OVERLAY 0x2000
+	{
+		Hyc_SysSleepMode.o (+RO, +RW, +ZI)
+		;Hyc_SysTurnOffMode.o (+RO, +RW, +ZI)
+	}
+
+	SRAM_USB_MEMORY 0x00000840 OVERLAY 0x2000
+	{
+		;hyhwDriverUSB.o	(usb_zidata)
+		;hyudsScsiAppln_SDMMC_Nand.o	(usb_zidata)
+		
+		hyuds*.o				(usb_zidata)
+		USBHandlerFunction.o	(usb_zidata)
+	}
+
+	ISRAM_RW_ZI			+0x0  0x0000CFC0
+	{
+		* (+RW,+ZI)
+	}
+}
+
